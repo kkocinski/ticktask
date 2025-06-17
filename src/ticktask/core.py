@@ -33,7 +33,7 @@ class Scheduler:
         for task in self.__task_list:
             if task.start_date < self.__current_time:
                 if task.task_type == TaskType.ONE_TIME:
-                    self.__task_list.remove(task)
+                    self.remove_task(task_name=task.name)
                 else:
                     task.start_date += task.time_interval
                 self.__start_task(task)
