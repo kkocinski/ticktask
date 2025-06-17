@@ -181,6 +181,12 @@ caution in production environments due to their experimental nature.
 
 ## ChangeLog
 
+### [0.1.1] - 2025-06-17
+
+#### Fix
+
+- Use `remove_task` method to delete `ONE_TIME` task after executed.
+
 ### [0.1.0] - 2025-06-16
 
 #### Initial Release
