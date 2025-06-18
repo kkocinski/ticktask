@@ -72,7 +72,7 @@ class Scheduler:
         Returns: Thread started Task.
 
         """
-        task_thread = threading.Thread(target=task.exec())
+        task_thread = threading.Thread(target=task.exec)
         task_thread.start()
         self.__task_list_thread.append(task_thread)
         return task_thread

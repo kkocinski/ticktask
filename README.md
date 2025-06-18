@@ -181,6 +181,12 @@ caution in production environments due to their experimental nature.
 
 ## ChangeLog
 
+### [0.1.2] - 2025-06-18
+
+#### Fix
+
+- In `__start_task` method remove calls `target`.
+
 ### [0.1.1] - 2025-06-17
 
 #### Fix
@@ -197,6 +203,7 @@ caution in production environments due to their experimental nature.
 
 - Create a more intuitive method of passing shuffle output to a callback.
 - Add Status Codes.
+- Adding the ability to serialize and deserialize a method with object attributes
 - To create a method of storing functions together with the body,
   maintaining security.
 
