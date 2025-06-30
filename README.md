@@ -181,6 +181,15 @@ caution in production environments due to their experimental nature.
 
 ## ChangeLog
 
+### [0.2.0] - 2025-06-30
+
+#### Add
+
+- Adding in `serialize_callable` and `deserialize_callable` the ability 
+  to process methods from objects. Serialization saves attributes and
+  their values. Object initialization should include initialization
+  of all object attributes
+
 ### [0.1.2] - 2025-06-18
 
 #### Fix
@@ -202,8 +211,7 @@ caution in production environments due to their experimental nature.
 ## TODO
 
 - Create a more intuitive method of passing shuffle output to a callback.
-- Add Status Codes.
-- Adding the ability to serialize and deserialize a method with object attributes
+- ~~Add Status Codes.~~ Adding more exceptions for more control.
 - To create a method of storing functions together with the body,
   maintaining security.
 

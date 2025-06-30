@@ -46,6 +46,16 @@ def test_remove_task():
     assert not test_task in scheduler._Scheduler__task_list
 
 
+def test_get_task():
+    test_task_name = "TestTask"
+    test_task = Task(name=test_task_name, task=mock_task_fun)
+    scheduler = Scheduler()
+    scheduler.add_task(test_task)
+    get_task = scheduler.get_task(test_task_name)
+    assert len(scheduler.get_task_list()) == 1
+    assert test_task == get_task
+
+
 def test_add_task_one_time():
     TestVariables.var = 0
     test_task_name = "TestTask"

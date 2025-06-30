@@ -24,6 +24,8 @@ class Scheduler:
         self.__main_loop_thread: threading.Thread = None
 
     def __del__(self) -> None:
+        """Close the scheduler if it is running.
+        """
         self.stop()
 
     def __check_task(self) -> None:
@@ -113,6 +115,28 @@ class Scheduler:
         self.__running = False
         self.__main_loop_thread.join()
         self.__main_loop_thread = None
+
+    def get_task_list(self) -> typing.List[Task]:
+        """Get task list.
+
+        Returns:
+            typing.List[Task]: List with task list.
+        """
+        return self.__task_list
+
+    def get_task(self, task_name: str) -> Task | None:
+        """Get task by name.
+
+        Args:
+            task_name: Task name.
+
+        Returns:
+            Task: Task object.
+        """
+        for task in self.__task_list:
+            if task.name == task_name:
+                return task
+        return None
 
     def add_task(self, task:Task) -> None:
         """Add task to scheduler.

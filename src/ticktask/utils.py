@@ -1,5 +1,6 @@
 import importlib
 import typing
+import types
 
 
 def serialize_callable(func: typing.Callable) -> dict:
@@ -18,7 +19,22 @@ def serialize_callable(func: typing.Callable) -> dict:
         "qualname": func.__qualname__,
     }
 
-    if "." in func.__qualname__ and not isinstance(func, type):
+    if isinstance(func, types.MethodType) and hasattr(func, "__self__"):
+        instance = func.__self__
+        if instance is not None and not isinstance(instance, type):
+            data["instance_required"] = True
+            try:
+                instance_attrs = {}
+                for k, v in vars(instance).items():
+                    if not callable(v) and not k.startswith("_"):
+                        instance_attrs[k] = v
+                    elif callable(v):
+                        instance_attrs[k] = serialize_callable(v)
+                data["instance_attributes"] = instance_attrs
+            except Exception as e:
+                print(f"Could not serialize attributes: {e}")
+
+    elif "." in func.__qualname__ and not isinstance(func, type):
         data["instance_required"] = True
 
     return data
@@ -47,7 +63,13 @@ def deserialize_callable(data: dict) -> typing.Callable:
         for attr in cls_path:
             cls = getattr(cls, attr)
 
-        instance = cls()  # Constructor w/o args
+        if 'instance_attributes' in data:
+            instance_attributes = data['instance_attributes']
+            print(instance_attributes)
+            instance = cls(**instance_attributes)
+
+        else:
+            instance = cls()  # Constructor w/o args
         return getattr(instance, method_name)
     else:
         obj = module
