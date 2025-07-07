@@ -109,10 +109,15 @@ including its name, the function to execute, and any arguments required for exec
 
 #### Methods
 ```python
+# New thread
 exec()
+
+# "Main" thread
+exec_in_main_thread()
 ```
-Executes the task immediately, ignoring any scheduled time. If a callback
-is provided, it will be executed after the task completes, and the output
+Executes the task immediately, ignoring any scheduled time. `exec()` run code in new thread
+while `exec_in_main_thread()` run code in "main" thread and block code until finish.
+If a callback is provided, it will be executed after the task completes, and the output
 of the task can be passed to the callback if specified.
 
 #### Example Usage
@@ -140,8 +145,11 @@ task = Task(
     callback_args={"output": None}
 )
 
-# Execute the task
+# Execute the task in new thread
 task.exec()
+
+# Or execute in the same "main" thread.
+task.exec_in_main_thread()
 ```
 
 ### Callable Serialization
@@ -180,6 +188,21 @@ the function's body or state, only its location and name. Use with
 caution in production environments due to their experimental nature.
 
 ## ChangeLog
+
+### [0.3.0] - 2025-07-07
+
+#### Add
+
+- Add new method for `Task` `exec_in_main_thread()` to run task in the "main" thread.
+
+#### Change
+
+- `exec()` method in `Task` now start task in new threads.
+
+#### Fix
+
+- In `deserialize_callable` there was a leftover from testing and was removed
+  the print of class attributes when reconstructing method.
 
 ### [0.2.0] - 2025-06-30
 

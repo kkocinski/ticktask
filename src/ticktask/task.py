@@ -1,6 +1,7 @@
 import typing
 import enum
 import datetime
+import threading
 
 
 class TaskType(enum.Enum):
@@ -57,13 +58,21 @@ class Task:
     def __call__(self) -> None:
         self.exec()
 
-    def exec(self) -> None:
-        """Execute the task now, ignore putted time.
+    def exec_in_main_thread(self) -> None:
+        """Execute the task now in the main thread, ignore putted time.
         If Callback has arg "<task_name>_output" then output from
         task will assign to this callback argument.
         """
         self.output = self.task(**self.task_args)
-        if self.task.__name__+"_output" in self.callback_args.keys():
-            self.callback_args[self.task.__name__+"_output"] = self.output
+        if self.task.__name__ + "_output" in self.callback_args.keys():
+            self.callback_args[self.task.__name__ + "_output"] = self.output
         if self.callback is not None:
             self.callback(**self.callback_args)
+
+    def exec(self) -> None:
+        """Execute the task now in new thread and don't stop code, ignore putted time.
+        If Callback has arg "<task_name>_output" then output from
+        task will assign to this callback argument.
+        """
+        thread = threading.Thread(target=self.exec_in_main_thread)
+        thread.start()

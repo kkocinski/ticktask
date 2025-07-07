@@ -65,7 +65,6 @@ def deserialize_callable(data: dict) -> typing.Callable:
 
         if 'instance_attributes' in data:
             instance_attributes = data['instance_attributes']
-            print(instance_attributes)
             instance = cls(**instance_attributes)
 
         else:
